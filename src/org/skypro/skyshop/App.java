@@ -32,5 +32,4 @@ public class App {
         //Поиск товара в пустой корзине
         busket.checkProduct("Помидор");
     }
-
 }

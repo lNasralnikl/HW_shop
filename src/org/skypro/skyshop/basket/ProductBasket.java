@@ -65,5 +65,4 @@ public class ProductBasket {
             System.out.println("Итого: " + sum);
         }
     }
-
 }
