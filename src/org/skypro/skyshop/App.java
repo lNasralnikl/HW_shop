@@ -9,17 +9,20 @@ public class App {
         ProductBasket busket = new ProductBasket(5);
 
         //Добавление продукта в корзину
-        busket.addNewProduct("Помидор", 50);
-        busket.addNewProduct("Тыква", 354);
-        busket.addNewProduct("Майонез", 500);
-        busket.addNewProduct("Огурцы", 45);
-        busket.addNewProduct("Стол", 3000);
+        busket.addNewFixProduct("Помидор");
+        busket.addNewFixProduct("Яйца");
+        busket.addNewDiscountProduct("Тыква", 200, 50);
+        busket.addNewDiscountProduct("Ручка", 420, 50);
+        busket.addNewSimpleProduct("Майонез", 700);
 
         //Печать содержимого корзины
+        System.out.println("Корзина:"); //Добавил себе для красивого вывода
         busket.printBusket();
+        System.out.println(); //Добавил себе для красивого вывода
 
         //Добавление товара в заполненную корзину
-        busket.addNewProduct("Стол", 3000);
+        busket.addNewSimpleProduct("Стол", 3000);
+        System.out.println(); //Добавил себе для красивого вывода
 
         //Поиск товара
         busket.checkProduct("Помидор");
@@ -27,8 +30,10 @@ public class App {
 
         //Очистка корзины
         busket.busketClean();
+        System.out.println(); //Добавил себе для красивого вывода
         //Вывод корзины
         busket.printBusket();
+        System.out.println(); //Добавил себе для красивого вывода
         //Поиск товара в пустой корзине
         busket.checkProduct("Помидор");
     }
