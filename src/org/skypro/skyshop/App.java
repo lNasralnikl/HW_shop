@@ -1,6 +1,9 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.Product;
 
 public class App {
 
@@ -9,11 +12,13 @@ public class App {
         ProductBasket busket = new ProductBasket(5);
 
         //Добавление продукта в корзину
-        busket.addNewFixProduct("Помидор");
-        busket.addNewFixProduct("Яйца");
-        busket.addNewDiscountProduct("Тыква", 200, 50);
-        busket.addNewDiscountProduct("Ручка", 420, 50);
-        busket.addNewSimpleProduct("Майонез", 700);
+        FixPriceProduct product = new FixPriceProduct("Помидор");
+        busket.addProduct(product);
+
+        DiscountedProduct product1 = new DiscountedProduct("Пиво", 150, 20);
+        busket.addProduct(product1);
+
+
 
         //Печать содержимого корзины
         System.out.println("Корзина:"); //Добавил себе для красивого вывода
@@ -21,7 +26,7 @@ public class App {
         System.out.println(); //Добавил себе для красивого вывода
 
         //Добавление товара в заполненную корзину
-        busket.addNewSimpleProduct("Стол", 3000);
+
         System.out.println(); //Добавил себе для красивого вывода
 
         //Поиск товара

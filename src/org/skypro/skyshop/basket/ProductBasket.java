@@ -1,9 +1,7 @@
 package org.skypro.skyshop.basket;
 
-import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
-import org.skypro.skyshop.product.SimpleProduct;
 
 public class ProductBasket {
 
@@ -20,32 +18,12 @@ public class ProductBasket {
 //Методы
 
     //Добавление продукта в корзину
-    public void addNewSimpleProduct(String name, double price) {
-        if (productQuantity >= maxProductQuantity) {
-            System.out.println("Корзина заполнена");
-        } else {
-            SimpleProduct newProduct = new SimpleProduct(name, price);
-            products[productQuantity] = newProduct;
-            productQuantity++;
-        }
-    }
 
-    public void addNewDiscountProduct(String name, double basePrice, int discountPercent) {
+    public void addProduct(Product product) {
         if (productQuantity >= maxProductQuantity) {
             System.out.println("Корзина заполнена");
         } else {
-            DiscountedProduct newProduct = new DiscountedProduct(name, basePrice, discountPercent);
-            products[productQuantity] = newProduct;
-            productQuantity++;
-        }
-    }
-
-    public void addNewFixProduct(String name) {
-        if (productQuantity >= maxProductQuantity) {
-            System.out.println("Корзина заполнена");
-        } else {
-            FixPriceProduct newProduct = new FixPriceProduct(name);
-            products[productQuantity] = newProduct;
+            products[productQuantity] = product;
             productQuantity++;
         }
     }
@@ -93,4 +71,6 @@ public class ProductBasket {
             System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special);
         }
     }
+
+
 }
