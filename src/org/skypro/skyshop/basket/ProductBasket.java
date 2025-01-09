@@ -1,5 +1,6 @@
 package org.skypro.skyshop.basket;
 
+import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 
 public class ProductBasket {
@@ -17,12 +18,12 @@ public class ProductBasket {
 //Методы
 
     //Добавление продукта в корзину
-    public void addNewProduct(String name, int cost) {
+
+    public void addProduct(Product product) {
         if (productQuantity >= maxProductQuantity) {
             System.out.println("Корзина заполнена");
         } else {
-            Product newProduct = new Product(name, cost);
-            products[productQuantity] = newProduct;
+            products[productQuantity] = product;
             productQuantity++;
         }
     }
@@ -38,7 +39,7 @@ public class ProductBasket {
                 }
             }
         }
-        if (!check) System.out.println("Товара нет в корзине");
+        if (!check) System.out.println("Товара " + name + " нет в корзине");
     }
 
     //Очистка корзины
@@ -50,19 +51,26 @@ public class ProductBasket {
 
     //Вывод корзины
     public void printBusket() {
-        int sum = 0;
+        double sum = 0;
+        int special = 0;
         for (int i = 0; i < maxProductQuantity; i++) {
             if (products[i] == null) {
                 System.out.print("");
             } else {
-                System.out.println(products[i].getName() + ": " + products[i].getCost());
-                sum = sum + products[i].getCost();
+                System.out.println(products[i].toString());
+                sum = sum + products[i].getPrice();
+                if (products[i].isSpecial()) {
+                    special++;
+                }
             }
+
         }
         if (sum == 0) {
             System.out.println("Корзина пустая");
         } else {
-            System.out.println("Итого: " + sum);
+            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special);
         }
     }
+
+
 }
