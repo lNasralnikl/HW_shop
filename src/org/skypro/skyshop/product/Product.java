@@ -1,6 +1,8 @@
 package org.skypro.skyshop.product;
 
-public abstract class Product {
+import org.skypro.skyshop.searchable.Searchable;
+
+public abstract class Product implements Searchable {
 
     private final String name;
 
@@ -9,10 +11,30 @@ public abstract class Product {
     }
 
     public String getName() {
+        try {
+            if (name == null || name.isBlank()) {
+                throw new IllegalArgumentException("Ошибка: Наименование не может состоять из пробелов или иметь значение null");
+            }
+            return name;
+        } catch (IllegalArgumentException e) {
+            return "Ошибка: Наименование не может состоять из пробелов или иметь значение null";
+        }
+    }
+    public abstract double getPrice();
+
+    public abstract boolean isSpecial();
+
+    //Добавление поиска
+
+
+    @Override
+    public String searchTerm() {
         return name;
     }
 
-    public abstract double getPrice();
-    public abstract boolean isSpecial();
+    @Override
+    public String content() {
+        return "PRODUCT";
+    }
 
 }

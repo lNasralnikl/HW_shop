@@ -11,7 +11,15 @@ public class SimpleProduct extends Product {
 
     @Override
     public double getPrice() {
-        return price;
+        try {
+            if (price <= 0) {
+                throw new IllegalArgumentException("Ошибка: Цена товара не может быть меньше или равна 0");
+            }
+            return price;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: Цена товара не может быть меньше или равна 0");
+            return 0;
+        }
     }
 
     @Override
@@ -20,7 +28,7 @@ public class SimpleProduct extends Product {
     }
 
     @Override
-    public boolean isSpecial(){
+    public boolean isSpecial() {
         return false;
     }
 }
