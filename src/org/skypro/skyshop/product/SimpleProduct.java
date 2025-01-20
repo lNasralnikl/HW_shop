@@ -6,20 +6,15 @@ public class SimpleProduct extends Product {
 
     public SimpleProduct(String name, double price) {
         super(name);
+        if (price <= 0) {
+            throw new IllegalArgumentException("Ошибка: Цена товара не может быть меньше или равна 0");
+        }
         this.price = price;
     }
 
     @Override
     public double getPrice() {
-        try {
-            if (price <= 0) {
-                throw new IllegalArgumentException("Ошибка: Цена товара не может быть меньше или равна 0");
-            }
-            return price;
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: Цена товара не может быть меньше или равна 0");
-            return 0;
-        }
+        return price;
     }
 
     @Override

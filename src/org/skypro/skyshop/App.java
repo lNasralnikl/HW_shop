@@ -14,10 +14,23 @@ public class App {
         ProductBasket busket = new ProductBasket(5);
 
         //Добавление продукта в корзину
-        Product product = new FixPriceProduct("Помидор");
+        Product product;
+        try {
+            product = new FixPriceProduct("   ");
+        } catch (IllegalArgumentException e){
+            product = new FixPriceProduct("Пиво");
+        }
+
         busket.addProduct(product);
 
-        Product product1 = new DiscountedProduct("Пиво", 150, 50);
+        Product product1;
+        try {
+            product1 = new DiscountedProduct("Пиво", 150, -15);
+        }catch (IllegalArgumentException e){
+            product1 = new DiscountedProduct("Пиво", 150, 50);
+        }
+
+
         busket.addProduct(product1);
 
         //Добавление статьи
