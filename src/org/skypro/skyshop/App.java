@@ -14,6 +14,7 @@ public class App {
         ProductBasket busket = new ProductBasket(5);
 
         //Добавление продукта в корзину
+ HW4
         Product product;
         try {
             product = new FixPriceProduct("   ");
@@ -31,6 +32,12 @@ public class App {
         }
 
 
+
+        Product product = new FixPriceProduct("Помидор");
+        busket.addProduct(product);
+
+        Product product1 = new DiscountedProduct("Пиво", 150, 20);
+ master
         busket.addProduct(product1);
 
         //Добавление статьи
@@ -38,6 +45,7 @@ public class App {
         Article article1 = new Article("Статья 2", "Текст статьи 2");
         Article article2 = new Article("Статья 3", "Текст статьи 3");
         Article article3 = new Article("Статья 4", "Текст статьи 4");
+ HW4
 
         //Создание объекта SearchEngine
         SearchEngine searchEngine = new SearchEngine(5);
@@ -59,7 +67,27 @@ public class App {
         searchEngine.search("Статья 3");
 
 
+ master
 
+        //Создание объекта SearchEngine
+        SearchEngine searchEngine = new SearchEngine(5);
+
+        //Добавление объектов в массив для поиска
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
+        searchEngine.add(product1);
+        searchEngine.add(product);
+
+        //Вызов Search
+        searchEngine.search("Пиво");
+        searchEngine.search("Статья");
+
+
+
+
+
+/*      Пока просто отключил для удобства
         //Печать содержимого корзины
         System.out.println("Корзина:"); //Добавил себе для красивого вывода
         busket.printBusket();

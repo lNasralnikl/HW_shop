@@ -32,6 +32,7 @@ public class SearchEngine {
             }
         }
         Searchable[] printResult = new Searchable[x];
+ HW4
         System.arraycopy(result, 0, printResult, 0, x);
         System.out.println(Arrays.toString(printResult));
     }
@@ -115,4 +116,13 @@ public class SearchEngine {
         }
     }
 */
+
+        for (int i = 0; i < x; i++){
+            printResult[i] = result[i];
+        }
+
+        System.out.println(Arrays.toString(printResult));
+    }
+
+ master
 }
