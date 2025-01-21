@@ -9,16 +9,14 @@ public class DiscountedProduct extends Product {
     public DiscountedProduct(String name, double basePrice, int discountPercent) {
         super(name);
         this.basePrice = basePrice;
+        if (discountPercent < 0 || discountPercent > 100){
+            throw new IllegalArgumentException("Ошибка: Скидка на товар должна быть в диапазоне от 0 до 100%");
+        }
         this.discountPercent = discountPercent;
     }
 
     @Override
     public double getPrice() {
-        if (discountPercent >= 0 && discountPercent <= 100) {
-            price = basePrice * (1 - discountPercent / 100.0);
-        } else {
-            System.out.println("Неверно указана скидка на продукт");
-        }
         return price;
     }
 

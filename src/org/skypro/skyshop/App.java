@@ -14,10 +14,30 @@ public class App {
         ProductBasket busket = new ProductBasket(5);
 
         //Добавление продукта в корзину
+ HW4
+        Product product;
+        try {
+            product = new FixPriceProduct("   ");
+        } catch (IllegalArgumentException e){
+            product = new FixPriceProduct("Пиво");
+        }
+
+        busket.addProduct(product);
+
+        Product product1;
+        try {
+            product1 = new DiscountedProduct("Пиво", 150, -15);
+        }catch (IllegalArgumentException e){
+            product1 = new DiscountedProduct("Пиво", 150, 50);
+        }
+
+
+
         Product product = new FixPriceProduct("Помидор");
         busket.addProduct(product);
 
         Product product1 = new DiscountedProduct("Пиво", 150, 20);
+ master
         busket.addProduct(product1);
 
         //Добавление статьи
@@ -25,6 +45,29 @@ public class App {
         Article article1 = new Article("Статья 2", "Текст статьи 2");
         Article article2 = new Article("Статья 3", "Текст статьи 3");
         Article article3 = new Article("Статья 4", "Текст статьи 4");
+ HW4
+
+        //Создание объекта SearchEngine
+        SearchEngine searchEngine = new SearchEngine(5);
+
+        //Добавление объектов в массив для поиска
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
+        searchEngine.add(product1);
+        searchEngine.add(product);
+
+        //Точный поиск
+        searchEngine.getSearchTerm("Статья 3");
+        searchEngine.getSearchTerm("Водка");
+
+        /*
+        //Вызов Search
+        searchEngine.search("Пиво");
+        searchEngine.search("Статья 3");
+
+
+ master
 
         //Создание объекта SearchEngine
         SearchEngine searchEngine = new SearchEngine(5);
@@ -50,6 +93,7 @@ public class App {
         busket.printBusket();
         System.out.println(); //Добавил себе для красивого вывода
 
+        /*
         //Добавление товара в заполненную корзину
 
         System.out.println(); //Добавил себе для красивого вывода
