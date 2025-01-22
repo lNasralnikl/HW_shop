@@ -9,6 +9,9 @@ public class DiscountedProduct extends Product {
     public DiscountedProduct(String name, double basePrice, int discountPercent) {
         super(name);
         this.basePrice = basePrice;
+        if (discountPercent < 0 || discountPercent > 100){
+            throw new IllegalArgumentException("Ошибка: Скидка на товар должна быть в диапазоне от 0 до 100%");
+        }
         this.discountPercent = discountPercent;
     }
 
