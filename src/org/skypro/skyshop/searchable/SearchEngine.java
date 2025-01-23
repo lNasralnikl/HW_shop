@@ -1,36 +1,39 @@
 package org.skypro.skyshop.searchable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SearchEngine {
 
-    private final Searchable[] searchables;
-    private final int maxSearcheQuantity;
-    private int objectNum;
+    private final List<Searchable> searchables = new ArrayList<>();
+    private final List<Searchable> searched = new ArrayList<>();
 
-    public SearchEngine(int maxSearcheQuantity) {
-        this.searchables = new Searchable[maxSearcheQuantity];
-        this.maxSearcheQuantity = maxSearcheQuantity;
-    }
-
+    //Добавление в поиск
     public void add(Searchable object) {
-        if (objectNum >= maxSearcheQuantity) {
-            System.out.println("Массив заполнен");
-        } else {
-            searchables[objectNum] = object;
-            objectNum++;
+        searchables.add(object);
         }
-    }
 
-    public void search(String search) {
-        Searchable[] result = new Searchable[searchables.length];
-        int x = 0;
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] != null && searchables[i].contain(search)) {
-                result[x] = searchables[i];
-                x++;
+    //Поиск по наименованию
+    public void search(String search){
+        int searchablesSize = searchables.size();
+        List<Integer> searchCounts = new ArrayList<>();
+        for (int i = 0; i < searchablesSize; i++){
+            String test = searchables.get(i).searchTerm();
+            if(test != null && test.toLowerCase().contains(search.toLowerCase()) && !test.isBlank() && !search.trim().isEmpty()){
+                searchCounts.add(i);
             }
         }
+ HW5_List
+        System.out.println("Результаты поиска '" + search + "':");
+        if (!searchCounts.isEmpty()) {
+            for(int i = 0; i < searchCounts.size(); i++){
+                searched.add(searchables.get(searchCounts.get(i)));
+            }
+            System.out.println(searched + "\n");
+        }else{
+            System.out.println("Ничего не найдено\n");
+
         Searchable[] printResult = new Searchable[x];
  HW4
         System.arraycopy(result, 0, printResult, 0, x);
@@ -118,10 +121,8 @@ public class SearchEngine {
 */
 
         for (int i = 0; i < x; i++){
-            printResult[i] = result[i];
+            printResult[i] = result[i];>>>>>>> master
         }
-
-        System.out.println(Arrays.toString(printResult));
     }
 
  master

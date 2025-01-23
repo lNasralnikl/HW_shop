@@ -3,40 +3,39 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductBasket {
 
-    private final Product[] products;
-    private final boolean busketFull = false;
-    private int productQuantity = 0;
-    private final int maxProductQuantity;
+        private final List<Product> products = new ArrayList<>();
+    private final List<Product> deletedProducts = new ArrayList<>();
+    private final boolean delProducts = false;
 
-    public ProductBasket(int maxProductQuantity) {
-        this.products = new Product[maxProductQuantity];
-        this.maxProductQuantity = maxProductQuantity;
+    //Методы
+    //Добавление продукта в корзину
+    public void addProduct(Product product) {
+        products.add(product);
     }
 
-//Методы
-
-    //Добавление продукта в корзину
-
-    public void addProduct(Product product) {
-        if (productQuantity >= maxProductQuantity) {
-            System.out.println("Корзина заполнена");
-        } else {
-            products[productQuantity] = product;
-            productQuantity++;
+    //Удаление продукта по наименованию
+    public void deleteProduct(String productName) {
+        for (Product product : products) {
+            if (!productName.isBlank() && product.getName().toLowerCase().contains(productName.toLowerCase())) {
+                deletedProducts.add(product);
+            }
         }
+        products.removeAll(deletedProducts);
     }
 
     //Проверка продукта в корзине
     public void checkProduct(String name) {
+        int busketSize = products.size();
         boolean check = false;
-        for (int i = 0; i < maxProductQuantity; i++) {
-            if (products[i] != null) {
-                if (name.equals(products[i].getName())) {
-                    check = true;
-                    System.out.println("Товар в корзине под номером " + (i + 1));
-                }
+        for (int i = 0; i < busketSize; i++) {
+            if (products.get(i) != null && name.equals(products.get(i).getName())) {
+                check = true;
+                System.out.println("Товар в корзине под номером " + (i + 1));
             }
         }
         if (!check) System.out.println("Товара " + name + " нет в корзине");
@@ -44,33 +43,33 @@ public class ProductBasket {
 
     //Очистка корзины
     public void busketClean() {
-        for (int i = 0; i < maxProductQuantity; i++) {
-            products[i] = null;
+        System.out.println("Корзина очищена");
+        int busketSize = products.size();
+        for (int i = 0; i < busketSize; i++) {
+            products.remove(0);
         }
     }
 
     //Вывод корзины
     public void printBusket() {
+        int busketSize = products.size();
         double sum = 0;
         int special = 0;
-        for (int i = 0; i < maxProductQuantity; i++) {
-            if (products[i] == null) {
-                System.out.print("");
-            } else {
-                System.out.println(products[i].toString());
-                sum = sum + products[i].getPrice();
-                if (products[i].isSpecial()) {
-                    special++;
-                }
+        System.out.println("Продуктовая корзина:");
+        for (int i = 0; i < busketSize; i++) {
+            System.out.println(products.get(i).toString());
+            sum = sum + products.get(i).getPrice();
+            if (products.get(i).isSpecial()) {
+                special++;
             }
-
         }
         if (sum == 0) {
             System.out.println("Корзина пустая");
+        } else if (deletedProducts.isEmpty()) {
+            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\n");
         } else {
-            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special);
+            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\nУдаленные товары: " + deletedProducts + "\n");
         }
     }
-
 
 }
