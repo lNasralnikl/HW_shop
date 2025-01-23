@@ -23,7 +23,7 @@ public class SimpleProduct extends Product {
     }
 
     @Override
-    public boolean isSpecial(){
+    public boolean isSpecial() {
         return false;
     }
 }
