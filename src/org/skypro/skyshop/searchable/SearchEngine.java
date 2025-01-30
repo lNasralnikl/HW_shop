@@ -8,7 +8,6 @@ public class SearchEngine {
     private final List<Searchable> searched = new ArrayList<>();
     private final Map<String, List<Searchable>> searchables = new TreeMap<>();
 
-
     //Добавление в поиск
     public void add(Searchable object) {
         if (!searchables.containsKey(object.searchTerm())) {
