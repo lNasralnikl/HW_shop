@@ -1,75 +1,77 @@
 package org.skypro.skyshop.basket;
 
-import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ProductBasket {
 
-        private final List<Product> products = new ArrayList<>();
     private final List<Product> deletedProducts = new ArrayList<>();
-    private final boolean delProducts = false;
+    private final Map<String, List<Product>> products = new HashMap<>();
 
     //Методы
     //Добавление продукта в корзину
     public void addProduct(Product product) {
-        products.add(product);
+        if (product == null) {
+            throw new IllegalArgumentException("Продукт не может быть пустым");
+        }
+        if (!products.containsKey(product.getName())) {
+            products.put(product.getName(), new ArrayList<>());
+        }
+        products.get(product.getName()).add(product);
     }
 
     //Удаление продукта по наименованию
-    public void deleteProduct(String productName) {
-        for (Product product : products) {
-            if (!productName.isBlank() && product.getName().toLowerCase().contains(productName.toLowerCase())) {
-                deletedProducts.add(product);
+    public List<Product> deleteProduct(String productName) {
+        if (productName.isBlank() || productName.isEmpty()) {
+            return deletedProducts;
+        }
+
+        List<String> toRemove = new ArrayList<>();
+        for (String key : products.keySet()) {
+            if (key.toLowerCase().contains(productName.toLowerCase())) {
+                deletedProducts.addAll(products.get(key));
+                toRemove.add(key);
             }
         }
-        products.removeAll(deletedProducts);
-    }
 
-    //Проверка продукта в корзине
-    public void checkProduct(String name) {
-        int busketSize = products.size();
-        boolean check = false;
-        for (int i = 0; i < busketSize; i++) {
-            if (products.get(i) != null && name.equals(products.get(i).getName())) {
-                check = true;
-                System.out.println("Товар в корзине под номером " + (i + 1));
-            }
+        for (String key : toRemove) {
+            products.remove(key);
         }
-        if (!check) System.out.println("Товара " + name + " нет в корзине");
+
+        return deletedProducts;
+
     }
 
-    //Очистка корзины
-    public void busketClean() {
-        System.out.println("Корзина очищена");
-        int busketSize = products.size();
-        for (int i = 0; i < busketSize; i++) {
-            products.remove(0);
-        }
-    }
+//Вывод корзины
+public void printBusket() {
+    double sum = 0;
+    int special = 0;
+    System.out.println("Продуктовая корзина:");
 
-    //Вывод корзины
-    public void printBusket() {
-        int busketSize = products.size();
-        double sum = 0;
-        int special = 0;
-        System.out.println("Продуктовая корзина:");
-        for (int i = 0; i < busketSize; i++) {
-            System.out.println(products.get(i).toString());
-            sum = sum + products.get(i).getPrice();
-            if (products.get(i).isSpecial()) {
+    for (Map.Entry<String, List<Product>> map : products.entrySet()) {
+        System.out.println(map.getValue());
+        for (Product product : map.getValue()) {
+            sum += product.getPrice();
+            if (map.getValue().getFirst().isSpecial()) {
                 special++;
             }
         }
-        if (sum == 0) {
-            System.out.println("Корзина пустая");
-        } else if (deletedProducts.isEmpty()) {
-            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\n");
-        } else {
-            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\nУдаленные товары: " + deletedProducts + "\n");
-        }
     }
+
+    if (products.isEmpty()) {
+        System.out.println("Продукты не добавлены");
+    } else if (deletedProducts.isEmpty()) {
+        System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\n");
+    } else {
+        System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\nУдаленные товары: " + deletedProducts + "\n");
+    }
+}
+
+//Очистка корзины
+public void busketClean() {
+    System.out.println("Корзина очищена\n");
+    products.clear();
+}
 
 }
