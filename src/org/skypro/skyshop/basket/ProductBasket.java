@@ -1,6 +1,5 @@
 package org.skypro.skyshop.basket;
 
-import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 
 import java.util.ArrayList;
@@ -8,9 +7,8 @@ import java.util.List;
 
 public class ProductBasket {
 
-        private final List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
     private final List<Product> deletedProducts = new ArrayList<>();
-    private final boolean delProducts = false;
 
     //Методы
     //Добавление продукта в корзину

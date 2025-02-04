@@ -12,4 +12,5 @@ public interface Searchable {
     default boolean contain(String s){
         return searchTerm().contains(s);
     }
+
 }
