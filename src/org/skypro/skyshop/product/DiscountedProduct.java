@@ -17,7 +17,7 @@ public class DiscountedProduct extends Product {
 
     @Override
     public double getPrice() {
-        return price;
+        return price*discountPercent;
     }
 
     @Override

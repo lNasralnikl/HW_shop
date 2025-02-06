@@ -1,6 +1,5 @@
 package org.skypro.skyshop.basket;
 
-import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 
 import java.util.ArrayList;
@@ -8,9 +7,13 @@ import java.util.List;
 
 public class ProductBasket {
 
-        private final List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
     private final List<Product> deletedProducts = new ArrayList<>();
     private final boolean delProducts = false;
+
+    //Статические переменные счетчики
+    static double sum = 0;
+    static int special = 0;
 
     //Методы
     //Добавление продукта в корзину
@@ -43,33 +46,40 @@ public class ProductBasket {
 
     //Очистка корзины
     public void busketClean() {
-        System.out.println("Корзина очищена");
-        int busketSize = products.size();
-        for (int i = 0; i < busketSize; i++) {
-            products.remove(0);
-        }
+        System.out.println("Корзина очищена\n");
+        products.removeAll(products);
+        sum = 0;
+        special = 0;
     }
 
     //Вывод корзины
     public void printBusket() {
-        int busketSize = products.size();
-        double sum = 0;
-        int special = 0;
         System.out.println("Продуктовая корзина:");
-        for (int i = 0; i < busketSize; i++) {
-            System.out.println(products.get(i).toString());
-            sum = sum + products.get(i).getPrice();
-            if (products.get(i).isSpecial()) {
-                special++;
-            }
-        }
-        if (sum == 0) {
+        products.forEach(n -> {
+            System.out.println(n.toString());
+            busketSum(n.getPrice());
+            specialProducts(n.isSpecial());
+        });
+        if (sum == 0){
             System.out.println("Корзина пустая");
-        } else if (deletedProducts.isEmpty()) {
-            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\n");
-        } else {
-            System.out.println("Итого: " + sum + "\nСпециальных товаров в корзине: " + special + "\nУдаленные товары: " + deletedProducts + "\n");
+        }else if (special != 0){
+            System.out.println("Итого: " + sum + ". Специальных продуктов: " + special + "\n");
         }
+    }
+
+    //Статические методы
+    //Стоимость корзины
+    private static double busketSum(double price){
+        sum += price;
+        return sum;
+    }
+
+    //Счетчик специальных продуктов
+    private static int specialProducts(boolean check){
+        if (check == true){
+            special++;
+        }
+        return special;
     }
 
 }
