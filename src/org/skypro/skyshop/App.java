@@ -55,17 +55,17 @@ public class App {
         busket.printBusket();
 
         //Вызов Search
-        searchEngine.search("пиво");
+        searchEngine.search("статья");
 
         //Поиск товара
-        //busket.checkProduct("Помидор");
+        //busket.checkProduct("пиво темное");
 
         //Очистка корзины
         busket.busketClean();
 
         //Удаление по наименованию
         //busket.deleteProduct("светлое");
-        //busket.deleteProduct(" ");
+
 
         //Вывод корзины
         busket.printBusket();

@@ -2,84 +2,115 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class ProductBasket {
 
-    private final List<Product> products = new ArrayList<>();
     private final List<Product> deletedProducts = new ArrayList<>();
-    private final boolean delProducts = false;
+    private final Map<String, List<Product>> products = new HashMap<>();
 
-    //Статические переменные счетчики
-    static double sum = 0;
-    static int special = 0;
+    //Статические
+    static boolean check = false;
 
     //Методы
     //Добавление продукта в корзину
     public void addProduct(Product product) {
-        products.add(product);
+        if (product == null) {
+            throw new IllegalArgumentException("Продукт не может быть пустым");
+        }
+        if (!products.containsKey(product.getName())) {
+            products.put(product.getName(), new ArrayList<>());
+        }
+        products.get(product.getName()).add(product);
     }
 
     //Удаление продукта по наименованию
-    public void deleteProduct(String productName) {
-        for (Product product : products) {
-            if (!productName.isBlank() && product.getName().toLowerCase().contains(productName.toLowerCase())) {
-                deletedProducts.add(product);
+    public List<Product> deleteProduct(String productName) {
+        if (productName.isBlank() || productName.isEmpty()) {
+            return deletedProducts;
+        }
+
+        List<String> toRemove = new ArrayList<>();
+        for (String key : products.keySet()) {
+            if (key.toLowerCase().contains(productName.toLowerCase())) {
+                deletedProducts.addAll(products.get(key));
+                toRemove.add(key);
             }
         }
-        products.removeAll(deletedProducts);
+
+        for (String key : toRemove) {
+            products.remove(key);
+        }
+
+        return deletedProducts;
+
     }
 
+    /*
     //Проверка продукта в корзине
     public void checkProduct(String name) {
-        int busketSize = products.size();
-        boolean check = false;
-        for (int i = 0; i < busketSize; i++) {
-            if (products.get(i) != null && name.equals(products.get(i).getName())) {
-                check = true;
-                System.out.println("Товар в корзине под номером " + (i + 1));
-            }
+
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("Наименование товара не может быть пустым");
         }
-        if (!check) System.out.println("Товара " + name + " нет в корзине");
+        products.forEach(n -> {
+            int index = products.indexOf(n);
+            if (n.getName().equalsIgnoreCase(name)) {
+                System.out.println("Товар в корзине под номером " + (index + 1));
+                check = true;
+            }
+        });
+        if (!check) {
+            System.out.println("Товара " + name + " нет в корзине\n");
+        }
+        System.out.println();
     }
+
+     */
 
     //Очистка корзины
     public void busketClean() {
         System.out.println("Корзина очищена\n");
-        products.removeAll(products);
-        sum = 0;
-        special = 0;
+        products.clear();
     }
 
     //Вывод корзины
     public void printBusket() {
         System.out.println("Продуктовая корзина:");
-        products.forEach(n -> {
-            System.out.println(n.toString());
-            busketSum(n.getPrice());
-            specialProducts(n.isSpecial());
-        });
-        if (sum == 0){
-            System.out.println("Корзина пустая");
-        }else if (special != 0){
-            System.out.println("Итого: " + sum + ". Специальных продуктов: " + special + "\n");
-        }
-    }
 
-    //Статические методы
-    //Стоимость корзины
-    private static double busketSum(double price){
-        sum += price;
-        return sum;
+        List<Product> busketPrint = products.values().stream()
+                .flatMap(Collection::stream)
+                .toList();
+
+        //Расчет суммы товаров
+        double sum = busketPrint.stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
+
+        //Счетчик спец. продуктов
+        long specials = busketPrint.stream()
+                .filter(new CheckSpecials())
+                .count();
+
+        busketPrint.forEach(product ->
+                System.out.println(product.toString()));
+        System.out.print("Сумма товаров: " + sum);
+        if (specials != 0) {
+            System.out.print("| Специальных товаров: " + specials);
+        }
+
+        System.out.println();
+
     }
 
     //Счетчик специальных продуктов
-    private static int specialProducts(boolean check){
-        if (check == true){
-            special++;
+    static class CheckSpecials implements Predicate<Product> {
+        @Override
+        public boolean test(Product product) {
+            return product.isSpecial();
         }
-        return special;
     }
+
 
 }

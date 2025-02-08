@@ -4,7 +4,6 @@ public class DiscountedProduct extends Product {
 
     private final double basePrice;
     private final int discountPercent;
-    private double price;
 
     public DiscountedProduct(String name, double basePrice, int discountPercent) {
         super(name);
@@ -17,7 +16,7 @@ public class DiscountedProduct extends Product {
 
     @Override
     public double getPrice() {
-        return price*discountPercent;
+        return basePrice*(1- (double) discountPercent /100);
     }
 
     @Override

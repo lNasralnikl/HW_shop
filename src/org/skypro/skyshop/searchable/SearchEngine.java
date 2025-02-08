@@ -1,6 +1,7 @@
 package org.skypro.skyshop.searchable;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class SearchEngine {
@@ -19,7 +20,6 @@ public class SearchEngine {
                 return Integer.compare(second, first);
             }
         }
-
     }
 
     //Добавление в поиск
@@ -34,10 +34,11 @@ public class SearchEngine {
             throw new IllegalArgumentException("Предмет поиска не может быть пустым или состоять из пробелов");
         }
         System.out.println("Результаты поиска '" + search + "':");
-        List<Searchable> founded = searchables.stream()
-                .filter(searchable -> searchable.searchTerm().toLowerCase().contains(search.toLowerCase()))
-                .collect(Collectors.toCollection(ArrayList::new));
 
+        Supplier<TreeSet<Searchable>> resultPrint = () -> new TreeSet<>(new ReverseStringComparator());
+        TreeSet<Searchable> founded = searchables.stream()
+                .filter(searchable -> searchable.searchTerm().toLowerCase().contains(search.toLowerCase()))
+                .collect(Collectors.toCollection(resultPrint));
         if (founded.isEmpty()) {
             System.out.println("Ничего не найдено\n");
         } else {
@@ -47,3 +48,5 @@ public class SearchEngine {
     }
 
 }
+
+
